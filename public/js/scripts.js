@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const comments = await fetchComments();
   renderComments(comments);
+
+  const users = await fetchUsers();
+  renderUsers(users);
 });
 
 async function fetchComments() {
@@ -53,13 +56,13 @@ async function postReply(commentId, replyInput, replyInputDiv) {
 }
 
 function renderComments(comments) {
-  const commentList = document.getElementById('comments-list');
+  const commentList = document.getElementById('commentContainer');
   commentList.innerHTML = '';
   comments.forEach(comment => renderComment(comment));
 }
 
 function renderComment(comment) {
-  const commentList = document.getElementById('comments-list');
+  const commentList = document.getElementById('commentContainer');
   const commentBox = document.createElement('div');
   commentBox.className = 'comment-box';
 
@@ -160,3 +163,93 @@ function showReplyInput(commentBox, commentId) {
   const replies = commentBox.querySelector('.replies');
   replies.appendChild(replyInputDiv);
 }
+
+async function fetchUsers() {
+  const response = await fetch('/api/users', {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  const users = await response.json();
+  return users;
+}
+
+function renderUsers(users) {
+  const userList = document.getElementById('userList');
+  userList.innerHTML = '';
+  users.forEach(user => {
+    const userItem = document.createElement('div');
+    userItem.className = 'user-item';
+    userItem.dataset.userId = user._id;
+    userItem.innerText = user.username;
+    userItem.onclick = () => selectUserForChat(user);
+    userList.appendChild(userItem);
+  });
+}
+
+let currentChatUserId = null;
+
+function selectUserForChat(user) {
+  currentChatUserId = user._id;
+  const chatHeader = document.getElementById('chatHeader');
+  chatHeader.innerText = user.username;
+  fetchMessages(user._id);
+}
+
+async function fetchMessages(userId) {
+  const response = await fetch(`/api/messages?recipientId=${userId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  const messages = await response.json();
+  renderMessages(messages);
+}
+
+function renderMessages(messages) {
+  const chatMessages = document.getElementById('chatMessages');
+  chatMessages.innerHTML = '';
+  messages.forEach(message => {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = message.sender === localStorage.getItem('userId') ? 'sent' : 'received';
+
+    const messageText = document.createElement('div');
+    messageText.className = 'message-text';
+    messageText.innerText = message.text;
+
+    const messageTime = document.createElement('div');
+    messageTime.className = 'message-time';
+    messageTime.innerText = new Date(message.createdAt).toLocaleString();
+
+    messageDiv.appendChild(messageText);
+    messageDiv.appendChild(messageTime);
+
+    chatMessages.appendChild(messageDiv);
+  });
+}
+
+async function sendMessage() {
+  const chatMessageInput = document.getElementById('chatMessageInput');
+  const messageText = chatMessageInput.value.trim();
+
+  if (messageText && currentChatUserId) {
+    const response = await fetch('/api/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ recipientId: currentChatUserId, text: messageText })
+    });
+    const newMessage = await response.json();
+    renderMessages([...messagesList, newMessage]);
+    chatMessageInput.value = '';
+  }
+}
+
+document.getElementById('sendMessageButton').addEventListener('click', sendMessage);
+document.getElementById('chatMessageInput').addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+    sendMessage();
+  }
+});

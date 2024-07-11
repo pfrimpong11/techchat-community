@@ -3,20 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comment Section</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Comment and Chat System</title>
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-  <div class="comment-section">
-    <div class="comments-list" id="comments-list">
-      <!-- Comments will be appended here dynamically -->
+  <div class="container">
+    <div class="sidebar">
+      <div class="search-bar">
+        <input type="text" id="search" placeholder="Search...">
+      </div>
+      <div class="user-list" id="userList">
+        <!-- Users will be dynamically inserted here -->
+      </div>
     </div>
-    <div class="comment-input">
-      <textarea id="new-comment-input" placeholder="Enter your comment"></textarea>
-      <button onclick="postComment()">Comment</button>
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-header" id="chatHeader">
+        <!-- Selected user info will be displayed here -->
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <!-- Chat messages will be dynamically inserted here -->
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chatMessageInput" placeholder="Type something to send...">
+        <button id="sendMessageButton">Send</button>
+      </div>
+    </div>
+    <div class="comment-section">
+      <div id="commentContainer">
+        <!-- Comments will be dynamically inserted here -->
+      </div>
+      <div class="comment-input">
+        <textarea id="new-comment-input" placeholder="Add a comment..."></textarea>
+        <button id="addCommentButton" onclick="postComment()">Add Comment</button>
+      </div>
     </div>
   </div>
-
-  <script src="js/scripts.js"></script>
+  <script src="./js/scripts.js"></script>
 </body>
 </html>
