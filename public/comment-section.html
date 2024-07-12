@@ -4,14 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Comment and Chat System</title>
+  <script src="https://kit.fontawesome.com/6c1f0d67e3.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+  <!-- <header>
+    <div class="header-container">
+        <div class="logo_box">
+            <a target="_blank" href="https://www.knust.edu.gh/"><img src="./images/knust_logo.png" alt="KNUST Logo" class="logo"></a>
+            <a target="_blank" href="https://www.knust.edu.gh/"><p class="school_name">KNUST</p></a>
+        </div>
+    </div>
+  </header> -->
+
   <div class="container">
     <div class="sidebar">
-      <div class="search-bar">
-        <input type="text" id="search" placeholder="Search...">
+      <div class="logo_box">
+        <img src="./images/techchat_logo_dark.png" alt="KNUST Logo" class="logo">
+        <p class="chatbot_name">TechChat | PSC</p>
       </div>
+      <div class="search-bar">
+        <input type="text" id="userSearchInput" placeholder="Search users..." />
+      </div>
+      <div id="notification" ></div>
       <div class="user-list" id="userList">
         <!-- Users will be dynamically inserted here -->
       </div>
@@ -29,11 +44,12 @@
       </div>
     </div>
     <div class="comment-section">
+      <div class="comment-section-header" id="chatHeader">What's on your mind?</div>
       <div id="commentContainer">
         <!-- Comments will be dynamically inserted here -->
       </div>
       <div class="comment-input">
-        <textarea id="new-comment-input" placeholder="Add a comment..."></textarea>
+        <input id="new-comment-input" placeholder="Add a comment...">
         <button id="addCommentButton" onclick="postComment()">Add Comment</button>
       </div>
     </div>

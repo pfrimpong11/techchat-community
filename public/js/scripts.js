@@ -1,9 +1,17 @@
+let messagesList = [];
+
 document.addEventListener('DOMContentLoaded', async () => {
   const comments = await fetchComments();
   renderComments(comments);
 
   const users = await fetchUsers();
   renderUsers(users);
+
+  // Attach search event listener
+  document.getElementById('userSearchInput').addEventListener('input', handleUserSearch);
+
+  // Periodically check for new messages
+  // setInterval(checkForNewMessages, 5000); // Check every 5 seconds
 });
 
 async function fetchComments() {
@@ -148,13 +156,13 @@ function renderComment(comment) {
 
 function showReplyInput(commentBox, commentId) {
   const replyInputDiv = document.createElement('div');
-  replyInputDiv.className = 'comment-input reply-input';
+  replyInputDiv.className = 'comment-reply-input reply-input';
 
-  const replyInput = document.createElement('textarea');
+  const replyInput = document.createElement('input');
   replyInput.placeholder = 'Enter reply';
 
   const replyButton = document.createElement('button');
-  replyButton.innerText = 'Post Reply';
+  replyButton.innerText = 'Reply';
   replyButton.onclick = () => postReply(commentId, replyInput, replyInputDiv);
 
   replyInputDiv.appendChild(replyInput);
@@ -171,19 +179,46 @@ async function fetchUsers() {
     }
   });
   const users = await response.json();
+  // return users.filter(user => user._id !== localStorage.getItem('userId'));
   return users;
 }
 
 function renderUsers(users) {
   const userList = document.getElementById('userList');
+  const currentUserId = localStorage.getItem('userId');
   userList.innerHTML = '';
   users.forEach(user => {
-    const userItem = document.createElement('div');
-    userItem.className = 'user-item';
-    userItem.dataset.userId = user._id;
-    userItem.innerText = user.username;
-    userItem.onclick = () => selectUserForChat(user);
-    userList.appendChild(userItem);
+    if (user._id !== currentUserId) {
+      const userItem = document.createElement('div');
+      userItem.className = 'user-item';
+      userItem.dataset.userId = user._id;
+
+      const userInfo = document.createElement('div');
+      userInfo.className = 'user-info';
+      userInfo.innerText = `${user.username}`;
+
+      const userEmail = document.createElement('span');
+      userEmail.className = 'user-email';
+      userEmail.innerText = `A student from ${user.highSchool}`;
+
+      userItem.appendChild(userInfo);
+      userItem.appendChild(userEmail);
+      userItem.onclick = () => selectUserForChat(user);
+      userList.appendChild(userItem);
+    }
+  });
+}
+
+function handleUserSearch(event) {
+  const query = event.target.value.toLowerCase();
+  const userItems = document.querySelectorAll('.user-item');
+  userItems.forEach(userItem => {
+    const username = userItem.innerText.toLowerCase();
+    if (username.includes(query)) {
+      userItem.style.display = '';
+    } else {
+      userItem.style.display = 'none';
+    }
   });
 }
 
@@ -203,6 +238,7 @@ async function fetchMessages(userId) {
     }
   });
   const messages = await response.json();
+  messagesList = messages;
   renderMessages(messages);
 }
 
@@ -231,6 +267,7 @@ function renderMessages(messages) {
 async function sendMessage() {
   const chatMessageInput = document.getElementById('chatMessageInput');
   const messageText = chatMessageInput.value.trim();
+  chatMessageInput.value = '';
 
   if (messageText && currentChatUserId) {
     const response = await fetch('/api/messages', {
@@ -242,8 +279,19 @@ async function sendMessage() {
       body: JSON.stringify({ recipientId: currentChatUserId, text: messageText })
     });
     const newMessage = await response.json();
-    renderMessages([...messagesList, newMessage]);
-    chatMessageInput.value = '';
+    messagesList.push(newMessage);
+    renderMessages(messagesList);
+    // chatMessageInput.value = '';
+
+
+    // Notify recipient of new message
+    const notification = document.getElementById('notification');
+    notification.className = 'notification';
+    notification.innerText = `New message from ${localStorage.getItem('username')}`;
+    // document.body.appendChild(notification);
+    setTimeout(() => {
+      notification.remove();
+    }, 5000);
   }
 }
 
@@ -253,3 +301,27 @@ document.getElementById('chatMessageInput').addEventListener('keypress', (event)
     sendMessage();
   }
 });
+
+
+// // Notification for new messages
+// let lastMessageTime = new Date();
+
+// async function checkForNewMessages() {
+//   const response = await fetch('/api/messages/check', {
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem('token')}`
+//     }
+//   });
+//   const newMessages = await response.json();
+
+//   if (newMessages.length > 0) {
+//     const notification = document.getElementById('notification');
+//     notification.innerText = `You have ${newMessages.length} new message(s)`;
+//     notification.style.display = 'block';
+
+//     // Update last message time
+//     lastMessageTime = new Date();
+//   } else {
+//     notification.style.display = 'none';
+//   }
+// }
