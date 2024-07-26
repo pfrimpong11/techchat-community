@@ -1,0 +1,358 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f4f4f9;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.header-container {
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo-container {
+    display: inline-flex;
+}
+
+.logo {
+    width: 40px;
+    height: auto;
+}
+
+.logo-name {
+    padding-top: 10px;
+    padding-left: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+nav {
+    padding-top: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.username-container {
+    display: inline-flex;
+}
+
+.username {
+    padding-top: 12px;
+    padding-right: 15px;
+    font-weight: 600;
+}
+
+.user-avatar {
+    width:30px;
+    height: auto;
+    padding-right: 15px;
+    padding-top: 5px;
+}
+
+.logout {
+    background-color: #090263;
+    color: #fff;
+    padding: 12px 20px 0 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+
+/* Main */
+.main-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.side-panel-container {
+    border-right: 1px solid #ddd;
+    background-color: #fff;
+    width: 20%;
+    padding: 20px;
+}
+
+/* .side-panel-container h3 {
+    padding: 20px 0;
+} */
+
+.member-underline {
+    background-color: #090263;
+    width: 25%;
+    height: 2px;
+    margin-bottom: 20px;
+}
+
+.user-item {
+    padding: 10px 0;
+}
+
+.user-info {
+    font-weight: 600;
+    padding-bottom: 5px;
+}
+
+/* .divLine {
+    width: 100%;
+    background-color: #333;
+    height: 2px;
+} */
+
+.main-chat-container {
+    background-color: #fff;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2%;
+    align-items: center;
+}
+
+.chat-container, .recent-chat-container {
+    width: 90%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    height: 600px;
+}
+
+.chat-container h3, .recent-chat-container h3 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: normal;
+    padding: 30px 0;
+}
+
+.chat-container p, .recent-chat-container p {
+    font-size: 0.875rem;
+    color: #999;
+    margin-bottom: 5px;
+
+}
+
+
+
+/* forum section */
+.comment-section {
+    width: 100%;
+    height: 85%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    border-radius: 10px;
+}
+
+.comment-section-header {
+    padding: 10px;
+    border-bottom: 1px solid #bdc3c7;
+    background-color: #fff;
+    color: #000;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#commentContainer {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.comment-box {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #c8d8e4;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+  
+  .comment-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    /* margin-right: 10px; */
+  }
+  
+  .comment-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .comment-content {
+    flex: 1;
+    margin-left: 50px;
+}
+
+.comment-author {
+    font-weight: 700;
+    color: #000;
+    margin-right: 10px;
+    cursor: pointer;
+    /* background-color: #090263; */
+    opacity: 0.95;
+    padding: 6px 60px 6px 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.comment-time, .reply-time {
+    font-size: 0.9em;
+    color: #888;
+}
+
+.comment-text, .reply-text {
+    margin: 10px 0;
+    color: #000;
+    margin-bottom: 25px;
+  }
+  
+  .comment-reactions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .reaction {
+    background-color: #e4e6eb;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+  
+  .reply-button {
+    color: #090263;
+    cursor: pointer;
+}
+
+.reply-image {
+    color: #090263;
+}
+
+.replies {
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+.reply {
+    margin-top: 10px;
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    /* border: 1px solid #888;
+    border-radius: 5px; */
+}
+
+.reply-avatar {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}
+
+.reply-content {
+    flex: 1;
+}
+
+.reply-author {
+    color: #000;
+}
+
+.reply-text {
+    margin: 10px 0;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.comment-input {
+    display: flex;
+    padding: 10px 40px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.comment-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #090263;
+    border-radius: 10px;
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+.comment-input button {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #090263;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  
+  /* Reply input and button */
+  .comment-reply-input {
+    display: flex;
+    padding: 10px;
+  }
+  
+  .comment-reply-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #090263;
+    border-radius: 10px;
+    margin-right: 10px;
+    width: 300px;
+    font-size: 14px;
+  }
+  
+  .comment-reply-input button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #090263;
+    color: white;
+    cursor: pointer;
+  }
+  
+  
+  /* Scroll bar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #e4e6eb;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #090263;
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #090263;
+  }

@@ -76,7 +76,7 @@ function renderComment(comment) {
 
   const avatar = document.createElement('img');
   avatar.className = 'comment-avatar';
-  avatar.src = '../images/default-avatar.png';  // Path to the default avatar image
+  avatar.src = '../images/userCircle.svg';  // Path to the default avatar image
 
   const commentHeader = document.createElement('div');
   commentHeader.className = 'comment-header';
@@ -114,7 +114,7 @@ function renderComment(comment) {
 
     const replyAvatar = document.createElement('img');
     replyAvatar.className = 'reply-avatar';
-    replyAvatar.src = '../images/comment-avatar.png';  // Path to the default avatar image
+    replyAvatar.src = '../images/userTag.svg';  // Path to the default avatar image
 
     const replyContent = document.createElement('div');
     replyContent.className = 'reply-content';
@@ -201,8 +201,12 @@ function renderUsers(users) {
       userEmail.className = 'user-email';
       userEmail.innerText = `A student from ${user.highSchool}`;
 
+      const divLine = document.createElement('div');
+      divLine.className = 'divLine';
+
       userItem.appendChild(userInfo);
       userItem.appendChild(userEmail);
+      userItem.appendChild(divLine);
       userItem.onclick = () => selectUserForChat(user);
       userList.appendChild(userItem);
     }
@@ -325,3 +329,30 @@ document.getElementById('chatMessageInput').addEventListener('keypress', (event)
 //     notification.style.display = 'none';
 //   }
 // }
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  async function checkAuth() {
+      const response = await fetch('/api/auth/isAuthenticated');
+      const data = await response.json();
+
+      if (!data.isAuthenticated) {
+      window.location.href = '../login.html';
+      } else {
+      document.getElementById('username').textContent = data.user.username;
+      }
+  }
+
+  document.getElementById('logout').addEventListener('click', async function() {
+      const response = await fetch('/api/auth/logout', { method: 'POST' });
+
+      if (response.ok) {
+      window.location.href = '../login.html';
+      } else {
+      alert('Logout failed');
+      }
+  });
+
+  checkAuth();
+});

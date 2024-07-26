@@ -49,7 +49,7 @@ exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
   console.log(email);
   try {
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
       res.json({
         _id: user._id,
@@ -57,6 +57,7 @@ exports.loginUser = async (req, res) => {
         email: user.email,
         token: generateToken(user._id)
       });
+      req.session.user = user;
       console.log("login successful");
     } else {
       res.status(401).json({ message: 'Invalid email or password' });

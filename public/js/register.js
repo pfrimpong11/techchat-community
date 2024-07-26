@@ -32,7 +32,7 @@ async function registerUser(event) {
       const data = await response.json();
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.username);
-      window.location.href = '/comment-section.html';
+      window.location.href = '/forum.html';
       console.log("Sign up successful");
     } else {
       alert('Registration failed');

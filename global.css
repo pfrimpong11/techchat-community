@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  line-height: normal;
+}
+
+:root {
+  /* fonts */
+  --font-inter: Inter;
+
+  /* font sizes */
+  --font-size-base: 16px;
+  --font-size-xl: 20px;
+
+  /* Colors */
+  --blue: #2522b9;
+  --white: #fff;
+  --color: #bfbfbf;
+  --color-black: #000;
+  --dark-ash: #464444;
+
+  /* Gaps */
+  --gap-3xs: 10px;
+  --gap-6xl: 25px;
+  --gap-8xs: 5px;
+
+  /* Paddings */
+  --padding-lgi: 19px;
+
+  /* Border radiuses */
+  --br-xl: 20px;
+}

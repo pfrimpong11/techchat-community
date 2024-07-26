@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/forum.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <span><img src="./images/techchat_logo_light.png" class="logo" alt="TechChat logo"></span>
+                <span class="logo-name">TechChat Community</span>
+            </div>
+            <div>
+                <nav>
+                    <a href="#">Home</a>
+                    <a href="#">Category</a>
+                    <a href="#">Popular</a>
+                    <a href="#">New</a>
+                    <a href="#">About</a>
+                </nav>
+            </div>
+            <div class="username-container">
+                <span class="username" id="username"></span>
+                <span><img src="./images/userCircle.svg" alt="User-avatar" class="user-avatar"></span>
+                <span class="logout" id="logout">logout</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- side panel -->
+        <div class="side-panel-container">
+            <h3>Members</h3>
+            <div class="member-underline"></div>
+            <div class="panel-content">
+                <div class="user-list" id="userList">
+                    <!-- Users will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+        <div class="main-chat-container">
+            <!-- chat container -->
+            <div class="chat-container">
+                <h3 class="welcome-message">Welcome to our Community of Prospective Students</h3>
+                <p class="sub-welcome-message">Discuss topics, share ideas and connect with others</p>
+                <div class="comment-section">
+                    <!-- <div class="comment-section-header" id="chatHeader">What's on your mind?</div> -->
+                    <div id="commentContainer">
+                        <!-- Comments will be dynamically inserted here -->
+                    </div>
+                    <div class="comment-input">
+                        <input id="new-comment-input" placeholder="Add a comment...">
+                        <button id="addCommentButton" onclick="postComment()">Post</button>
+                    </div>
+                </div>            
+            </div>
+            <div class="recent-chat-container">
+                <h3 class="welcome-message">Welcome to our Community of Prospective Students</h3>
+                <p class="sub-welcome-message">Discuss topics, share ideas and connect with others</p>
+                <div>
+                    <!-- Recent chat will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/scripts.js"></script>
+</body>
+</html>

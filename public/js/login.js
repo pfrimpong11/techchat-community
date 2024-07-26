@@ -21,7 +21,7 @@ document.getElementById('login-form').addEventListener('submit', loginUser);
     const data = await response.json();
     localStorage.setItem('token', data.token);
     localStorage.setItem('username', data.username);
-    window.location.href = '/comment-section.html';
+    window.location.href = '/forum.html';
     console.log("login successful");
     } else {
     alert('Login failed');

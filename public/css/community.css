@@ -1,0 +1,364 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    color: #fff;
+}
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+header {
+    background-color: #2b6777;
+    color: white;
+    padding: 15px;
+    opacity: 0.95;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.get-docly {
+    background-color: #52ab98;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.search-container input {
+    width: 60%;
+    padding: 10px;
+    border-radius: 4px 0 0 4px;
+    border: none;
+    outline: none;
+}
+
+.search-container .search-btn {
+    background-color: #52ab98;
+    border: none;
+    padding: 10px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.search-container .search-btn img {
+    width: 20px;
+    height: auto;
+}
+
+
+.video-cover {
+    background-color: #2b6777;
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+    padding-top: 10px;
+}
+
+/* forum section */
+.comment-section {
+    width: 100%;
+    height: 85%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    background: #f7fbfc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.comment-section-header {
+    padding: 10px;
+    border-bottom: 1px solid #bdc3c7;
+    background-color: #52ab98;
+    color: #fff;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#commentContainer {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.comment-box {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #c8d8e4;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+  
+  .comment-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    /* margin-right: 10px; */
+  }
+  
+  .comment-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .comment-content {
+    flex: 1;
+    margin-left: 50px;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #fff;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #52ab98;
+    opacity: 0.95;
+    padding: 6px 60px 6px 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.comment-time, .reply-time {
+    font-size: 0.9em;
+    color: #888;
+}
+
+.comment-text, .reply-text {
+    margin: 10px 0;
+    color: #000;
+    margin-bottom: 25px;
+  }
+  
+  .comment-reactions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .reaction {
+    background-color: #e4e6eb;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+  
+  .reply-button {
+    color: #52ab98;
+    cursor: pointer;
+}
+
+.reply-image {
+    color: #52ab98;
+}
+
+.replies {
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+.reply {
+    margin-top: 10px;
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    /* border: 1px solid #888;
+    border-radius: 5px; */
+}
+
+.reply-avatar {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}
+
+.reply-content {
+    flex: 1;
+}
+
+.reply-author {
+    color: #000;
+}
+
+.reply-text {
+    margin: 10px 0;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.comment-input {
+    display: flex;
+    padding: 10px 40px;
+    border-top: 1px solid #bdc3c7;
+    background-color: #f7fbfc;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.comment-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #52ab98;
+    border-radius: 10px;
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+.comment-input button {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #52ab98;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  
+  /* Reply input and button */
+  .comment-reply-input {
+    display: flex;
+    padding: 10px;
+  }
+  
+  .comment-reply-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #52ab98;
+    border-radius: 10px;
+    margin-right: 10px;
+    width: 300px;
+    font-size: 14px;
+  }
+  
+  .comment-reply-input button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #52ab98;
+    color: white;
+    cursor: pointer;
+  }
+  
+  
+  /* Scroll bar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #e4e6eb;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #52ab98;
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #22977e;
+  }
+  
+
+/* footer */
+footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #ffffff;
+    border-top: 1px solid #ccc;
+    color: #555;
+}
+
+.breadcrumb a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.update-info {
+    font-size: 0.9em;
+}
+
+
+@media screen and (max-width: 768px) {
+    .comment-input, .comment-reply-input {
+        padding: 10px;
+    }
+    
+    .comment-input input, .comment-reply-input input {
+        width: 50%;
+    }
+
+      /* Reply input and button */
+    .comment-reply-input button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 10px;
+        background-color: #52ab98;
+        color: white;
+        cursor: pointer;
+    }
+
+}
