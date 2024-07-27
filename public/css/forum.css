@@ -40,9 +40,27 @@ nav {
 
 nav a {
     text-decoration: none;
-    color: #333;
-    padding: 5px;
+    color: #090263;
+    padding: 5px 5px 5px 0;
     cursor: pointer;
+    position: relative;
+    font-weight: 600;
+}
+
+nav a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #090263;
+    transition: width 0.3s;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+}
+
+nav a:hover::after {
+    width: 70%;
 }
 
 .username-container {
@@ -53,6 +71,7 @@ nav a {
     padding-top: 12px;
     padding-right: 15px;
     font-weight: 600;
+    color: #000;
 }
 
 .user-avatar {
@@ -63,14 +82,30 @@ nav a {
 }
 
 .logout {
-    background-color: #090263;
-    color: #fff;
-    padding: 12px 20px 0 20px;
-    border-radius: 50px;
+    color: #090263;
+    padding: 12px 0px 0 10px;
+    margin-right: 20px;
     cursor: pointer;
     font-size: 15px;
     font-weight: 500;
+    position: relative;
+    font-weight: 600;
 }
+
+.logout::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #090263;
+    transition: width 0.3s;
+    position: absolute;
+}
+
+.logout:hover::after {
+    width: 70%;
+}
+
 
 
 
@@ -84,18 +119,24 @@ nav a {
     border-right: 1px solid #ddd;
     background-color: #fff;
     width: 20%;
-    padding: 20px;
+    padding: 40px;
 }
 
-/* .side-panel-container h3 {
-    padding: 20px 0;
-} */
+.side-panel-top {
+    margin-bottom: 50px;
+}
 
 .member-underline {
     background-color: #090263;
     width: 25%;
     height: 2px;
     margin-bottom: 20px;
+}
+
+.panel-content {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    height: 500px;
 }
 
 .user-item {
@@ -107,11 +148,107 @@ nav a {
     padding-bottom: 5px;
 }
 
-/* .divLine {
-    width: 100%;
-    background-color: #333;
-    height: 2px;
-} */
+.user-status {
+    font-size: 12px;
+    font-style: italic;
+    margin-left: 10px;
+}
+
+.user-status-online {
+    color: green;
+}
+
+.user-status-offline {
+    color: red;
+}
+
+.search-bar {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 90%;
+    border: none;
+    border-radius: 5px;
+    border: 1px solid #090263;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+
+.placeholder-image {
+    position: relative;
+    width: 15px;
+    height: auto;
+}
+
+
+.about-text {
+    margin-bottom: 50px;
+}
+
+.about-text p{
+    font-size: 0.9rem;
+    color: #999;
+    text-align: justify;
+    letter-spacing: -0.01em;
+    word-spacing: 1.5px;
+    line-height: 1.3;
+}
+
+.social-media-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.social-media {
+    display: flex;
+    gap: 30px;
+}
+
+.social-icon {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.social-icon img {
+    width: 20px;
+    height: auto;
+}
+
+.social-name {
+    position: absolute;
+    bottom: -20px;
+    font-size: 14px;
+    opacity: 0;
+    color: #090263;
+    transition: opacity 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-10px);
+}
+
+.social-icon:hover .social-name {
+    opacity: 1;
+}
+
+.footer {
+    margin-top: 20px;
+}
+
+.footer p {
+    font-size: 0.8rem;
+    color: #999;
+    text-align: center;
+}
+
 
 .main-chat-container {
     background-color: #fff;
@@ -119,7 +256,7 @@ nav a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 2%;
+    padding: 2% 2% 0 2%;
     align-items: center;
 }
 
@@ -129,7 +266,7 @@ nav a {
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     height: 600px;
 }
 
@@ -139,13 +276,13 @@ nav a {
     line-height: 1;
     white-space: normal;
     padding: 30px 0;
+    color: #090263;
 }
 
 .chat-container p, .recent-chat-container p {
     font-size: 0.875rem;
     color: #999;
     margin-bottom: 5px;
-
 }
 
 
@@ -177,7 +314,13 @@ nav a {
 #commentContainer {
     flex-grow: 1;
     padding: 10px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    max-height: 90%;
+}
+
+#recentPost{
+    overflow-y: scroll;
+    max-height: 80%;
 }
 
 .comment-box {
@@ -246,6 +389,7 @@ nav a {
   .reply-button {
     color: #090263;
     cursor: pointer;
+    border-bottom: 2px solid #090263;
 }
 
 .reply-image {
@@ -340,8 +484,8 @@ nav a {
   
   /* Scroll bar */
   ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 2px;
+    height: 2px;
   }
   
   ::-webkit-scrollbar-track {

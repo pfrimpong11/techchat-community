@@ -13,29 +13,37 @@ async function registerUser(event) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
-    const phoneNumber = document.getElementById('phone').value;
+    // const phoneNumber = document.getElementById('phone').value;
     const highSchool = document.getElementById('high-school').value;
 
-    if(password !== confirmPassword) {
-        alert("Passwords do not match");
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = ''; // Clear any previous error message
+
+    if (password !== confirmPassword) {
+      errorMessage.textContent = 'Passwords do not match';
+      return;
     }
 
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, firstName, surname, email, password, phoneNumber, highSchool })
-    });
-  
-    if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('username', data.username);
-      window.location.href = '/forum.html';
-      console.log("Sign up successful");
-    } else {
-      alert('Registration failed');
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, firstName, surname, email, password, highSchool })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        window.location.href = '/login.html';
+      } else {
+        const data = await response.json();
+        errorMessage.textContent = data.message || 'Registration failed';
+      }
+    } catch (error) {
+      errorMessage.textContent = 'An error occurred during registration';
     }
   }
 

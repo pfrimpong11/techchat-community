@@ -1,11 +1,59 @@
 let messagesList = [];
 
+document.addEventListener('DOMContentLoaded', function() {
+  async function checkAuth() {
+      const response = await fetch('/api/auth/isAuthenticated');
+      const data = await response.json();
+
+      if (!data.isAuthenticated) {
+      window.location.href = '../login.html';
+      } else {
+      document.getElementById('username').textContent = data.user.username;
+      console.log('username printed in frontend');
+      }
+  }
+
+  document.getElementById('logout').addEventListener('click', async function() {
+      // const response = await fetch('/api/auth/logout', { method: 'POST' });
+
+      const token = localStorage.getItem('token');
+
+      fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+      console.log(data);
+      if (data.msg === 'Logout successful') {
+        // Clear the token from localStorage
+        localStorage.removeItem('token');
+        
+        window.location.href = './login.html';
+      } else {
+        console.error('Logout failed:', data);
+      }
+      })
+      .catch(error => console.error('Error logging out:', error));
+  });
+
+  checkAuth();
+});
+
+
+
 document.addEventListener('DOMContentLoaded', async () => {
   const comments = await fetchComments();
   renderComments(comments);
 
   const users = await fetchUsers();
   renderUsers(users);
+
+  const recentPosts = await fetchRecentPosts();
+  renderRecentPosts(recentPosts);
 
   // Attach search event listener
   document.getElementById('userSearchInput').addEventListener('input', handleUserSearch);
@@ -193,9 +241,25 @@ function renderUsers(users) {
       userItem.className = 'user-item';
       userItem.dataset.userId = user._id;
 
-      const userInfo = document.createElement('div');
+      const userInfoContainer = document.createElement('div');
+
+      const userInfo = document.createElement('span');
       userInfo.className = 'user-info';
       userInfo.innerText = `${user.username}`;
+
+      const userStatus = document.createElement('span');
+      userStatus.className = 'user-status'
+      userStatus.innerText = user.status;
+      
+      // Apply the appropriate class based on the user's status
+      if (user.status === 'online') {
+        userStatus.classList.add('user-status-online');
+      } else if (user.status === 'offline') {
+        userStatus.classList.add('user-status-offline');
+      }
+
+      userInfoContainer.appendChild(userInfo);
+      userInfoContainer.appendChild(userStatus);
 
       const userEmail = document.createElement('span');
       userEmail.className = 'user-email';
@@ -204,7 +268,7 @@ function renderUsers(users) {
       const divLine = document.createElement('div');
       divLine.className = 'divLine';
 
-      userItem.appendChild(userInfo);
+      userItem.appendChild(userInfoContainer);
       userItem.appendChild(userEmail);
       userItem.appendChild(divLine);
       userItem.onclick = () => selectUserForChat(user);
@@ -299,6 +363,93 @@ async function sendMessage() {
   }
 }
 
+
+
+// Recent Post By members of community
+async function fetchRecentPosts() {
+  const response = await fetch('/api/comments/recentPost', {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  const posts = await response.json();
+  return posts;
+}
+
+function renderRecentPosts(posts) {
+  const recentPostContainer = document.getElementById('recentPost');
+  recentPostContainer.innerHTML = '';
+  posts.forEach(post => {
+    const commentBox = document.createElement('div');
+    commentBox.className = 'comment-box';
+
+    const avatar = document.createElement('img');
+    avatar.className = 'comment-avatar';
+    avatar.src = '../images/userCircle.svg';  // Path to the default avatar image
+
+    const commentHeader = document.createElement('div');
+    commentHeader.className = 'comment-header';
+
+    const commentAuthor = document.createElement('div');
+    commentAuthor.className = 'comment-author';
+    commentAuthor.innerText = post.username;
+
+    const commentTime = document.createElement('div');
+    commentTime.className = 'comment-time';
+    commentTime.innerText = new Date(post.createdAt).toLocaleString();
+
+    const commentContent = document.createElement('div');
+    commentContent.className = 'comment-content';
+
+    const commentTextDiv = document.createElement('div');
+    commentTextDiv.className = 'comment-text';
+    commentTextDiv.innerText = post.text;
+
+
+    commentHeader.appendChild(avatar);
+    commentHeader.appendChild(commentAuthor);
+    commentHeader.appendChild(commentTime);
+
+    commentContent.appendChild(commentTextDiv);
+    // commentContent.appendChild(commentReactions);
+    // commentContent.appendChild(replies);
+
+    commentBox.appendChild(commentHeader);
+    commentBox.appendChild(commentContent);
+
+    recentPostContainer.appendChild(commentBox);
+
+
+
+    // const postBox = document.createElement('div');
+    // postBox.className = 'post-box';
+
+    // const postHeader = document.createElement('div');
+    // postHeader.className = 'post-header';
+
+    // const postAuthor = document.createElement('div');
+    // postAuthor.className = 'post-author';
+    // postAuthor.innerText = post.username;
+
+    // const postTime = document.createElement('div');
+    // postTime.className = 'post-time';
+    // postTime.innerText = new Date(post.createdAt).toLocaleString();
+
+    // const postContent = document.createElement('div');
+    // postContent.className = 'post-content';
+    // postContent.innerText = post.text;
+
+    // postHeader.appendChild(postAuthor);
+    // postHeader.appendChild(postTime);
+
+    // postBox.appendChild(postHeader);
+    // postBox.appendChild(postContent);
+
+    // recentPostContainer.appendChild(postBox);
+  });
+}
+
+
 document.getElementById('sendMessageButton').addEventListener('click', sendMessage);
 document.getElementById('chatMessageInput').addEventListener('keypress', (event) => {
   if (event.key === 'Enter') {
@@ -332,27 +483,3 @@ document.getElementById('chatMessageInput').addEventListener('keypress', (event)
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
-  async function checkAuth() {
-      const response = await fetch('/api/auth/isAuthenticated');
-      const data = await response.json();
-
-      if (!data.isAuthenticated) {
-      window.location.href = '../login.html';
-      } else {
-      document.getElementById('username').textContent = data.user.username;
-      }
-  }
-
-  document.getElementById('logout').addEventListener('click', async function() {
-      const response = await fetch('/api/auth/logout', { method: 'POST' });
-
-      if (response.ok) {
-      window.location.href = '../login.html';
-      } else {
-      alert('Logout failed');
-      }
-  });
-
-  checkAuth();
-});

@@ -9,6 +9,27 @@ exports.getComments = async (req, res) => {
   }
 };
 
+
+exports.getRecentComments = async (req, res) => {
+  try {
+    const today = new Date();
+
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 7);
+
+    const recentComments = await Comment.find({
+      createdAt: {
+        $gte: yesterday,
+        $lte: today
+      }
+    }).sort({ createdAt: -1 });
+
+    res.json(recentComments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.postComment = async (req, res) => {
   const { username, text } = req.body;
   try {

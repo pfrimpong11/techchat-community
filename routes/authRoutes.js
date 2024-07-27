@@ -1,4 +1,6 @@
 const express = require('express');
+const authMiddleware = require('../middleware/authMiddleware');
+const User = require('../models/User');
 const { registerUser, loginUser, forgotPassword, resetPassword } = require('../controllers/authController');
 const router = express.Router();
 
@@ -17,14 +19,24 @@ router.get('/isAuthenticated', (req, res) => {
     }
 });
 
-router.post('/logout', (req, res) => {
-    req.session.destroy(err => {
+// Logout route with debugging
+router.post('/logout', authMiddleware.protect, async (req, res) => {
+    console.log('Logout route accessed');
+    try {
+        await User.findByIdAndUpdate(req.user._id, { status: 'offline' });
+
+        req.session.destroy(err => {
         if (err) {
-        return res.status(500).json({ msg: 'Logout failed' });
+            console.error('Error destroying session:', err);
+            return res.status(500).json({ msg: 'Logout failed' });
         }
+        console.log('Logout successful');
         res.status(200).json({ msg: 'Logout successful' });
     });
+    } catch (error) {
+        console.error('Error in logout route:', error);
+        res.status(500).json({ message: error.message });
+    }
 });
-
 
 module.exports = router;

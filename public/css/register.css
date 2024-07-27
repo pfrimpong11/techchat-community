@@ -55,3 +55,23 @@ body {
     text-decoration: underline;
   }
   
+
+
+  /* Scroll bar */
+  ::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #e4e6eb;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #090263;
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #090263;
+  }

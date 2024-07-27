@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>TechChat Sign Up</title>
     <link rel="stylesheet" href="./css/SignUpStyles.css"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" type="image/png" href="./images/techchat_logo_dark.png"/>
 </head>
 <body>
   <section>
@@ -18,37 +19,37 @@
           <img id="logo" src="./images/bot-logo.png" alt="Tech ChatBot">
       </div>
       <h2>Sign up</h2>
-      <div class="error message"></div>
-      <form id="register-form">
+        <p id="error-message" style="color: red; font-size: 13px; background-color: #fff; border: none;"></p>
+        <form id="register-form">
         <div class="form-row">
-          <input type="text" id="username" name="username" placeholder="Username" >
+          <input type="text" id="username" name="username" placeholder="Username" required>
         </div>
         <div class="firstName error error-space"></div>
         <div class="form-row">
-            <input type="text" id="first-name" name="firstName" placeholder="First Name" >
+            <input type="text" id="first-name" name="firstName" placeholder="First Name" required>
         </div>
         <div class="firstName error error-space"></div>
         <div class="form-row">
-            <input type="text" id="last-name" name="lastName" placeholder="Last Name" >
+            <input type="text" id="last-name" name="lastName" placeholder="Last Name" required>
         </div>
         <div class="lastName error error-space"></div>
         <div class="form-row">
-            <input type="text" id="email" name="email" placeholder="email@gmail.com" >
+            <input type="text" id="email" name="email" placeholder="email@gmail.com" required>
         </div>
         <div class="email error error-space"></div>
         <div class="form-row">
-          <input type="password" id="password" name="Password" placeholder="Password" >
-          <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm Password" >
+          <input type="password" id="password" name="Password" placeholder="Password" required>
+          <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm Password" required>
           <i id="toggle-password" class='bx bx-show'></i>
         </div>
         <div class="password-hint">Password must be at least 6 characters long</div>
         <div class="password error error-space"></div>
-        <div class="form-row">
-          <input type="tel" id="phone" name="phone" placeholder="Phone Number" >
+        <!-- <div class="form-row">
+          <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
         </div>
-        <div class="phone error error-space"></div>
+        <div class="phone error error-space"></div> -->
         <div class="form-row">
-          <input type="text" id="high-school" name="highSchool" placeholder="High School Name" >
+          <input type="text" id="high-school" name="highSchool" placeholder="High School Name" required>
         </div>
         <div class="highSchool error error-space"></div>
         <div class="consent_statement_container">

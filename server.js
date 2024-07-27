@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define the route for the homepage
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/register.html'));
+    res.sendFile(path.join(__dirname, './public/login.html'));
 });
 
 app.use('/api/auth', authRoutes);

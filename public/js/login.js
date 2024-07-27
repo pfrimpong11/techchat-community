@@ -9,23 +9,30 @@ document.getElementById('login-form').addEventListener('submit', loginUser);
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    const response = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ email, password })
-    });
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = ''; // Clear any previous error message
 
-    if (response.ok) {
-    const data = await response.json();
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('username', data.username);
-    window.location.href = '/forum.html';
-    console.log("login successful");
-    } else {
-    alert('Login failed');
-    }
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+            });
+
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('username', data.username);
+            window.location.href = '/forum.html';
+        } else {
+            const data = await response.json();
+            errorMessage.textContent = data.message || 'Login failed';
+        }
+    } catch (error) {
+        errorMessage.textContent = 'An error occurred during Login';
+        }
 }
 
 // Event listener to toggle password visibility

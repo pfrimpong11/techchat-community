@@ -7,8 +7,8 @@ const UserSchema = new mongoose.Schema({
   surname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  phoneNumber: { type: Number, required: true},
-  highSchool: { type: String, required: true}
+  highSchool: { type: String, required: true},
+  status: {type: String, enum: ['online', 'offline'], default: 'offline'}
 });
 
 UserSchema.pre('save', async function (next) {

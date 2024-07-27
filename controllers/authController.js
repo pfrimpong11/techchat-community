@@ -9,16 +9,16 @@ const generateToken = (id) => {
 };
 
 exports.registerUser = async (req, res) => {
-  const { username, firstName, surname, email, password, phoneNumber, highSchool } = req.body;
+  const { username, firstName, surname, email, password, highSchool } = req.body;
   try {
     let userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: 'User with this email already exists' });
     }
 
     userExists = await User.findOne({ username });
     if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: 'User with this username already exists' });
     }
 
     const user = await User.create({
@@ -27,7 +27,6 @@ exports.registerUser = async (req, res) => {
       surname,
       email,
       password,
-      phoneNumber,
       highSchool
     });
     res.status(201).json({
@@ -51,13 +50,18 @@ exports.loginUser = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
+
+      // Update user status to 'online'
+      await User.findByIdAndUpdate(user._id, { status: 'online' });
+
+      req.session.user = user;      
+
       res.json({
         _id: user._id,
         username: user.username,
         email: user.email,
         token: generateToken(user._id)
       });
-      req.session.user = user;
       console.log("login successful");
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
