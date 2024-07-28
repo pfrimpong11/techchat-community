@@ -54,8 +54,6 @@ exports.loginUser = async (req, res) => {
       // Update user status to 'online'
       await User.findByIdAndUpdate(user._id, { status: 'online' });
 
-      req.session.user = user;      
-
       res.json({
         _id: user._id,
         username: user.username,

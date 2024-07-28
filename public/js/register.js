@@ -35,8 +35,8 @@ async function registerUser(event) {
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('username', data.username);
         window.location.href = '/login.html';
       } else {
         const data = await response.json();

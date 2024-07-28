@@ -13,7 +13,7 @@ document.getElementById('login-form').addEventListener('submit', loginUser);
     errorMessage.textContent = ''; // Clear any previous error message
 
     try {
-        const response = await fetch('/api/auth/login', {
+        const response = await fetch('/api/auth/login', {  // here
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -23,9 +23,9 @@ document.getElementById('login-form').addEventListener('submit', loginUser);
 
         if (response.ok) {
             const data = await response.json();
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('username', data.username);
             window.location.href = '/forum.html';
+            sessionStorage.setItem('token', data.token); // here 
+            sessionStorage.setItem('username', data.username);  // here
         } else {
             const data = await response.json();
             errorMessage.textContent = data.message || 'Login failed';

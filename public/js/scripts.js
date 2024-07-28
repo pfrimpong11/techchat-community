@@ -1,46 +1,56 @@
 let messagesList = [];
 
 document.addEventListener('DOMContentLoaded', function() {
-  async function checkAuth() {
-      const response = await fetch('/api/auth/isAuthenticated');
-      const data = await response.json();
-
-      if (!data.isAuthenticated) {
-      window.location.href = '../login.html';
-      } else {
-      document.getElementById('username').textContent = data.user.username;
-      console.log('username printed in frontend');
+  async function checkAuthentication() {
+    const token = sessionStorage.getItem('token');
+  
+    const response = await fetch('/api/auth/isAuthenticated', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
+    });
+  
+    if (response.ok) {
+      const data = await response.json();
+      if (data.isAuthenticated) {
+        document.getElementById('username').textContent = `Welcome, ${data.user.username}`;
+      } else {
+        console.log('User is not authenticated');
+        window.location.href = '../login.html';
+      }
+    } else {
+      console.error('Failed to check authentication');
+      window.location.href = '../login.html';
+    }
   }
+  
 
   document.getElementById('logout').addEventListener('click', async function() {
-      // const response = await fetch('/api/auth/logout', { method: 'POST' });
 
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
-      fetch('/api/auth/logout', {
+      const response = await fetch('/api/auth/logout', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
-      })
-      .then(response => response.json())
-      .then(data => {
-      console.log(data);
-      if (data.msg === 'Logout successful') {
-        // Clear the token from localStorage
-        localStorage.removeItem('token');
-        
-        window.location.href = './login.html';
+      });
+    
+      if (response.ok) {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('username');
+        window.location.href = '/login.html';
       } else {
-        console.error('Logout failed:', data);
+        const data = await response.json();
+        console.error('Logout failed:', data.message);
       }
-      })
-      .catch(error => console.error('Error logging out:', error));
+    
   });
 
-  checkAuth();
+  checkAuthentication();
 });
 
 
@@ -65,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function fetchComments() {
   const response = await fetch('/api/comments', {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }
   });
   const comments = await response.json();
@@ -75,39 +85,41 @@ async function fetchComments() {
 async function postComment() {
   const commentInput = document.getElementById('new-comment-input');
   const commentText = commentInput.value.trim();
-  const username = localStorage.getItem('username'); // Assuming username is stored in localStorage
+  const username = sessionStorage.getItem('username'); // Assuming username is stored in sessionStorage
 
   if (commentText) {
     const response = await fetch('/api/comments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
       },
       body: JSON.stringify({ username, text: commentText })
     });
     const newComment = await response.json();
     renderComment(newComment);
+    location.reload(); //refresh the page after commenting
     commentInput.value = '';
   }
 }
 
 async function postReply(commentId, replyInput, replyInputDiv) {
   const replyText = replyInput.value.trim();
-  const username = localStorage.getItem('username'); // Assuming username is stored in localStorage
+  const username = sessionStorage.getItem('username'); // Assuming username is stored in sessionStorage
 
   if (replyText) {
     const response = await fetch('/api/comments/reply', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
       },
       body: JSON.stringify({ commentId, username, text: replyText })
     });
     const updatedComment = await response.json();
     renderComment(updatedComment);
     replyInputDiv.remove();
+    location.reload();
   }
 }
 
@@ -223,17 +235,17 @@ function showReplyInput(commentBox, commentId) {
 async function fetchUsers() {
   const response = await fetch('/api/users', {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }
   });
   const users = await response.json();
-  // return users.filter(user => user._id !== localStorage.getItem('userId'));
+  // return users.filter(user => user._id !== sessionStorage.getItem('userId'));
   return users;
 }
 
 function renderUsers(users) {
   const userList = document.getElementById('userList');
-  const currentUserId = localStorage.getItem('userId');
+  const currentUserId = sessionStorage.getItem('userId');
   userList.innerHTML = '';
   users.forEach(user => {
     if (user._id !== currentUserId) {
@@ -242,6 +254,7 @@ function renderUsers(users) {
       userItem.dataset.userId = user._id;
 
       const userInfoContainer = document.createElement('div');
+      userInfoContainer.className = 'user-info-container'
 
       const userInfo = document.createElement('span');
       userInfo.className = 'user-info';
@@ -262,7 +275,7 @@ function renderUsers(users) {
       userInfoContainer.appendChild(userStatus);
 
       const userEmail = document.createElement('span');
-      userEmail.className = 'user-email';
+      userEmail.className = 'user-school';
       userEmail.innerText = `A student from ${user.highSchool}`;
 
       const divLine = document.createElement('div');
@@ -302,7 +315,7 @@ function selectUserForChat(user) {
 async function fetchMessages(userId) {
   const response = await fetch(`/api/messages?recipientId=${userId}`, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }
   });
   const messages = await response.json();
@@ -315,7 +328,7 @@ function renderMessages(messages) {
   chatMessages.innerHTML = '';
   messages.forEach(message => {
     const messageDiv = document.createElement('div');
-    messageDiv.className = message.sender === localStorage.getItem('userId') ? 'sent' : 'received';
+    messageDiv.className = message.sender === sessionStorage.getItem('userId') ? 'sent' : 'received';
 
     const messageText = document.createElement('div');
     messageText.className = 'message-text';
@@ -342,7 +355,7 @@ async function sendMessage() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
       },
       body: JSON.stringify({ recipientId: currentChatUserId, text: messageText })
     });
@@ -355,7 +368,7 @@ async function sendMessage() {
     // Notify recipient of new message
     const notification = document.getElementById('notification');
     notification.className = 'notification';
-    notification.innerText = `New message from ${localStorage.getItem('username')}`;
+    notification.innerText = `New message from ${sessionStorage.getItem('username')}`;
     // document.body.appendChild(notification);
     setTimeout(() => {
       notification.remove();
@@ -369,7 +382,7 @@ async function sendMessage() {
 async function fetchRecentPosts() {
   const response = await fetch('/api/comments/recentPost', {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`
     }
   });
   const posts = await response.json();
@@ -411,41 +424,12 @@ function renderRecentPosts(posts) {
     commentHeader.appendChild(commentTime);
 
     commentContent.appendChild(commentTextDiv);
-    // commentContent.appendChild(commentReactions);
-    // commentContent.appendChild(replies);
 
     commentBox.appendChild(commentHeader);
     commentBox.appendChild(commentContent);
 
     recentPostContainer.appendChild(commentBox);
 
-
-
-    // const postBox = document.createElement('div');
-    // postBox.className = 'post-box';
-
-    // const postHeader = document.createElement('div');
-    // postHeader.className = 'post-header';
-
-    // const postAuthor = document.createElement('div');
-    // postAuthor.className = 'post-author';
-    // postAuthor.innerText = post.username;
-
-    // const postTime = document.createElement('div');
-    // postTime.className = 'post-time';
-    // postTime.innerText = new Date(post.createdAt).toLocaleString();
-
-    // const postContent = document.createElement('div');
-    // postContent.className = 'post-content';
-    // postContent.innerText = post.text;
-
-    // postHeader.appendChild(postAuthor);
-    // postHeader.appendChild(postTime);
-
-    // postBox.appendChild(postHeader);
-    // postBox.appendChild(postContent);
-
-    // recentPostContainer.appendChild(postBox);
   });
 }
 
@@ -458,13 +442,21 @@ document.getElementById('chatMessageInput').addEventListener('keypress', (event)
 });
 
 
+
+
+
+
+
+
+
+
 // // Notification for new messages
 // let lastMessageTime = new Date();
 
 // async function checkForNewMessages() {
 //   const response = await fetch('/api/messages/check', {
 //     headers: {
-//       Authorization: `Bearer ${localStorage.getItem('token')}`
+//       Authorization: `Bearer ${sessionStorage.getItem('token')}`
 //     }
 //   });
 //   const newMessages = await response.json();
