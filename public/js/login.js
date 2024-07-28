@@ -12,6 +12,16 @@ document.getElementById('login-form').addEventListener('submit', loginUser);
     const errorMessage = document.getElementById('error-message');
     errorMessage.textContent = ''; // Clear any previous error message
 
+    if (email.trim() === "") {
+        errorMessage.innerText = 'Please provide your email';
+        return;
+    }
+
+    if (password.trim() === "") {
+        errorMessage.innerText = 'Please enter your password';
+        return;
+    }
+
     try {
         const response = await fetch('/api/auth/login', {  // here
             method: 'POST',

@@ -1,60 +1,240 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #090263;
+    --accent-purple: #F5EDFF;
+    --background-color: #ffffff;
+}
+
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--blue);
+    background-color: var(--background-color);
+}
+
+a {
+    color: var(--blue);
+    text-decoration: underline;
+}
+
+a:hover {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+
+#sign-in #toggle-password {
+     font-size: 26px;
+    /* position: absolute; */
+    /* cursor: pointer;  */
+    background-color: var(--background-color);
+}
+
+
+section {
+    height: 100vh;
+    /* width: 100vw; */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  .form-container {
-    background-color: #fff;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-  }
-  
-  h1 {
+    text-align: left;
+}
+
+
+.email.error,.password.error,.firstName.error,.lastName.error,.phone.error,.highSchool.error{
+    color: #da0400;
+    font-weight: 600;
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: left;
+
+}
+
+.password-hint {
+    color: #848181; /* Use a modern gray color */
+    font-weight: 500; /* Slightly lighter font-weight for better readability */
+    font-size: 0.875rem; /* Use rem units for better scalability */
+    margin-top: 0.5rem; /* Use rem units for margin */
+    margin-bottom: 0.5rem; /* Use rem units for margin */
+    text-align: left;
+    padding-left: 0.5rem; /* Add some padding for better alignment */
+    line-height: 1.5; /* Improve readability with better line height */
+}
+
+
+.password.error {
+    color: #ff0602;
+    /* font-weight: 600; */
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+#error-message {
+    background-color: #f2dede;
+    color: #ff0602;
+    font-weight: 600;
+    padding: 8px;
+    border: 1px solid #ebccd1;
+    border-radius: 3px;
+    margin-top: 10px;
     margin-bottom: 20px;
-  }
-  
-  input {
+    width: 100%;
+    text-align: center;
+}
+
+#sign-in {
+    width: 25rem;
+    height: 450px; /* Match the height of the image */
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#sign-in h2 {
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center; /* Center align the heading */
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
     width: 100%;
     padding: 10px;
+    font-size: 1rem;
+}
+
+span {
+    display: inline-block;
     margin: 10px 0;
+    font-size: 1rem;
+}
+
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.logo-container img {
+    width: 80px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.logo-container span {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--blue);
+}
+
+.link-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#submit {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#submit:hover {
+    background-color: var(--accent-purple);
+    color: var(--blue);
+    border: 1px solid var(--blue);
+}
+
+#carousel-part {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Adjust image size */
+.rounded-image {
+    width: 510px; /* Adjust size as needed */
+    height: 520px;
+    border-radius: 20px; /* Rounded bottom corners */
+    margin: 20px;
+    margin-top: 75px;
+    position: relative;
+}
+
+
+
+.rounded-image::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.7), transparent);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    filter: blur(10px);
+}
+
+.consent_statement_container {
+    display: flex;
+    margin-bottom: 10px;
+    overflow: hidden;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: #fff;
-    font-size: 16px;
-  }
-  
-  button:hover {
-    background-color: #218838;
-  }
-  
-  p {
-    margin: 10px 0 0;
-  }
-  
-  a {
-    color: #007bff;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
+    padding: 5px;
+}
+
+.consent_statement {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    height: 20px;
+    min-height: calc(100vh - 85vh);
+}
+
+@media screen and (max-width: 768px) {
+    section {
+        flex-direction: column;
+    }
+
+    #carousel-part {
+        display: none;
+    }
+
+    #sign-in h2 {
+        margin-bottom: 2rem;
+    }
+}
 
 
   /* Scroll bar */

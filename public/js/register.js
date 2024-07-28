@@ -15,6 +15,7 @@ async function registerUser(event) {
     const confirmPassword = document.getElementById('confirm-password').value;
     // const phoneNumber = document.getElementById('phone').value;
     const highSchool = document.getElementById('high-school').value;
+    const checkbox = document.getElementById('checkbox').value;
 
     const errorMessage = document.getElementById('error-message');
     errorMessage.textContent = ''; // Clear any previous error message
@@ -23,6 +24,22 @@ async function registerUser(event) {
       errorMessage.textContent = 'Passwords do not match';
       return;
     }
+
+    if (firstName.trim() === "" || surname.trim() === "" || email.trim() === "" || highSchool.trim() === "") {
+      errorMessage.textContent = 'Please fill in all fields';
+      return;
+    }
+
+    if (password.length < 6) {
+      errorMessage.textContent = 'Password must be at least 6 characters long';
+      return;
+    }
+
+    if (!checkbox.checked) {
+      errorMessage.textContent = 'Please read and check User Consent Statement';
+      return;
+    }
+
 
     try {
       const response = await fetch('/api/auth/register', {

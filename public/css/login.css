@@ -147,6 +147,19 @@ section {
     border: 1px solid var(--blue);
 }
 
+#error-message {
+    background-color: #f2dede;
+    color: #ff0602;
+    font-weight: 600;
+    padding: 8px;
+    border: 1px solid #ebccd1;
+    border-radius: 3px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
 #carousel-part {
     margin: 1rem;
     display: flex;
