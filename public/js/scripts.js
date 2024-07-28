@@ -55,7 +55,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-document.addEventListener('DOMContentLoaded', async () => {
+let intervalId;
+
+// Function to fetch and render data
+async function fetchAndRenderData() {
+  // fetch and render comments
   const comments = await fetchComments();
   renderComments(comments);
 
@@ -64,14 +68,41 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const recentPosts = await fetchRecentPosts();
   renderRecentPosts(recentPosts);
+}
+
+
+// Start interval to fetch and render data every 5 seconds
+function startFetchingData() {
+  intervalId = setInterval(fetchAndRenderData, 5000);
+}
+
+// Stop the interval
+function stopFetchingData() {
+  clearInterval(intervalId);
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+  // Initial fetch and render
+  await fetchAndRenderData();
+
+  // Start fetching data initially
+  startFetchingData();
+
+  // Attach event listeners to pause/resume interval
+  const userSearchInput = document.getElementById('userSearchInput');
+
+  userSearchInput.addEventListener('focus', stopFetchingData);
+  userSearchInput.addEventListener('blur', startFetchingData);
 
   // Attach search event listener
-  document.getElementById('userSearchInput').addEventListener('input', handleUserSearch);
-
-  // Periodically check for new messages
-  // setInterval(checkForNewMessages, 5000); // Check every 5 seconds
+  userSearchInput.addEventListener('input', handleUserSearch);
 });
 
+
+
+
+// fetching comments from the backend
 async function fetchComments() {
   const response = await fetch('/api/comments', {
     headers: {
@@ -82,6 +113,8 @@ async function fetchComments() {
   return comments;
 }
 
+
+// sending comment to the database
 async function postComment() {
   const commentInput = document.getElementById('new-comment-input');
   const commentText = commentInput.value.trim();
@@ -98,11 +131,13 @@ async function postComment() {
     });
     const newComment = await response.json();
     renderComment(newComment);
-    location.reload(); //refresh the page after commenting
+    // location.reload(); //refresh the page after commenting
     commentInput.value = '';
   }
 }
 
+
+// sending reply to the backend
 async function postReply(commentId, replyInput, replyInputDiv) {
   const replyText = replyInput.value.trim();
   const username = sessionStorage.getItem('username'); // Assuming username is stored in sessionStorage
@@ -119,7 +154,7 @@ async function postReply(commentId, replyInput, replyInputDiv) {
     const updatedComment = await response.json();
     renderComment(updatedComment);
     replyInputDiv.remove();
-    location.reload();
+    // location.reload();
   }
 }
 
@@ -214,12 +249,20 @@ function renderComment(comment) {
   commentList.appendChild(commentBox);
 }
 
+
+
+// function for showing reply input
 function showReplyInput(commentBox, commentId) {
   const replyInputDiv = document.createElement('div');
   replyInputDiv.className = 'comment-reply-input reply-input';
 
   const replyInput = document.createElement('input');
   replyInput.placeholder = 'Enter reply';
+  replyInput.id = 'reply-input';
+
+  replyInput.addEventListener('focus', stopFetchingData);
+  replyInput.addEventListener('blur', startFetchingData);
+
 
   const replyButton = document.createElement('button');
   replyButton.innerText = 'Reply';
@@ -232,6 +275,8 @@ function showReplyInput(commentBox, commentId) {
   replies.appendChild(replyInputDiv);
 }
 
+
+
 async function fetchUsers() {
   const response = await fetch('/api/users', {
     headers: {
@@ -242,6 +287,8 @@ async function fetchUsers() {
   // return users.filter(user => user._id !== sessionStorage.getItem('userId'));
   return users;
 }
+
+
 
 function renderUsers(users) {
   const userList = document.getElementById('userList');
@@ -289,6 +336,9 @@ function renderUsers(users) {
     }
   });
 }
+
+
+
 
 function handleUserSearch(event) {
   const query = event.target.value.toLowerCase();
