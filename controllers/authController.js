@@ -37,7 +37,7 @@ exports.registerUser = async (req, res) => {
     });
     console.log("Sign up successful");
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Sign up Failed' });
   }
 };
 
@@ -65,7 +65,7 @@ exports.loginUser = async (req, res) => {
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Login Failed' });
   }
 };
 
