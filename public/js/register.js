@@ -20,6 +20,12 @@ async function registerUser(event) {
     const errorMessage = document.getElementById('error-message');
     errorMessage.textContent = ''; // Clear any previous error message
 
+    if (!validateEmail(email)) {
+      errorMessage.innerText = 'Please enter a valid email'; 
+      return;
+  }
+
+
     if (password !== confirmPassword) {
       errorMessage.textContent = 'Passwords do not match';
       return;
@@ -65,9 +71,6 @@ async function registerUser(event) {
   }
 
 
-
-
-
 // Function to make password hidden or visible
 togglePassword.addEventListener('click', (event) => {
     const inputType = password.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -76,20 +79,8 @@ togglePassword.addEventListener('click', (event) => {
     togglePassword.classList.toggle('bxs-hide');
 })
 
-function validateForm() {
-    var checkbox = document.getElementById("checkbox");
-    
-    // Check if the checkbox is checked
-    if (!checkbox.checked) {
-        alert("Please read the 'User Consent Statement' and check the checkbox.");
-      return false; // Prevent form submission
-    }
-    
-    // Form is valid, allow submission
-    return true;
+
+function validateEmail(email) {
+  var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(String(email).toLowerCase());
 }
-
-
-
-
-

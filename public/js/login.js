@@ -17,6 +17,11 @@ document.getElementById('login-form').addEventListener('submit', loginUser);
         return;
     }
 
+    if (!validateEmail(email)) {
+        errorMessage.innerText = 'Please enter a valid email'; 
+        return;
+    }
+
     if (password.trim() === "") {
         errorMessage.innerText = 'Please enter your password';
         return;
@@ -52,16 +57,7 @@ togglePassword.addEventListener('click', () => {
     togglePassword.classList.toggle('bxs-hide');
 });
 
-// Function to validate the form
-function validateForm() {
-    const checkbox = document.getElementById("checkbox");
-    
-    // Check if the checkbox is checked
-    if (!checkbox.checked) {
-        alert("Please read the 'User Consent Statement' and check the checkbox.");
-        return false; // Prevent form submission
-    }
-    
-    // Form is valid, allow submission
-    return true;
+function validateEmail(email) {
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
 }
