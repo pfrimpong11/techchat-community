@@ -15,7 +15,7 @@ async function registerUser(event) {
     const confirmPassword = document.getElementById('confirm-password').value;
     // const phoneNumber = document.getElementById('phone').value;
     const highSchool = document.getElementById('high-school').value;
-    const checkbox = document.getElementById('checkbox').value;
+    const checkbox = document.getElementById('checkbox');
 
     const errorMessage = document.getElementById('error-message');
     errorMessage.textContent = ''; // Clear any previous error message
