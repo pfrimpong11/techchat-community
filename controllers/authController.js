@@ -86,7 +86,7 @@ exports.forgotPassword = async (req, res) => {
     const token = generateToken(user._id);
 
     const transporter = nodemailer.createTransport({
-      service: 'Outlook365', // Use your email service
+      service: 'Gmail', // Use your email service
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
