@@ -1,6 +1,35 @@
 let messagesList = [];
 
 document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.getElementById('menuToggle');
+  const navContainer = document.querySelector('.nav-container');
+  const sidePanelContainer = document.querySelector('.side-panel-container');
+
+  menuToggle.addEventListener('click', function() {
+      navContainer.classList.toggle('active');
+      sidePanelContainer.classList.toggle('active');
+  });
+
+  // Close nav and side panel when clicking outside
+  document.addEventListener('click', function(event) {
+      if (!navContainer.contains(event.target) && !sidePanelContainer.contains(event.target) && !menuToggle.contains(event.target)) {
+          navContainer.classList.remove('active');
+          sidePanelContainer.classList.remove('active');
+      }
+  });
+
+  // Close nav and side panel when window is resized to larger screen
+  window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) {
+          navContainer.classList.remove('active');
+          sidePanelContainer.classList.remove('active');
+      }
+  });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
   async function checkAuthentication() {
     const token = sessionStorage.getItem('token');
   
@@ -490,38 +519,3 @@ document.getElementById('chatMessageInput').addEventListener('keypress', (event)
     sendMessage();
   }
 });
-
-
-
-
-
-
-
-
-
-
-// // Notification for new messages
-// let lastMessageTime = new Date();
-
-// async function checkForNewMessages() {
-//   const response = await fetch('/api/messages/check', {
-//     headers: {
-//       Authorization: `Bearer ${sessionStorage.getItem('token')}`
-//     }
-//   });
-//   const newMessages = await response.json();
-
-//   if (newMessages.length > 0) {
-//     const notification = document.getElementById('notification');
-//     notification.innerText = `You have ${newMessages.length} new message(s)`;
-//     notification.style.display = 'block';
-
-//     // Update last message time
-//     lastMessageTime = new Date();
-//   } else {
-//     notification.style.display = 'none';
-//   }
-// }
-
-
-

@@ -1,25 +1,33 @@
+/* Base styles */
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
     background-color: #f4f4f9;
     font-family: Arial, sans-serif;
     color: #333;
+    line-height: 1.6;
 }
 
+/* Header styles */
 .header-container {
     background-color: #fff;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
-    padding: 10px 30px;
+    align-items: center;
+    padding: 10px 5%;
     border-bottom: 1px solid #ddd;
+    width: 100%;
+    position: fixed;
 }
 
 .logo-container {
-    display: inline-flex;
+    display: flex;
+    align-items: center;
 }
 
 .logo {
@@ -28,20 +36,28 @@ body {
 }
 
 .logo-name {
-    padding-top: 10px;
-    padding-left: 20px;
-    font-size: 20px;
+    padding-left: 10px;
+    font-size: 18px;
     font-weight: 600;
 }
 
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 nav {
-    padding-top: 10px;
+    display: flex;
 }
 
 nav a {
     text-decoration: none;
     color: #090263;
-    padding: 5px 5px 5px 0;
+    padding: 5px 10px;
+    margin: 5px;
     cursor: pointer;
     position: relative;
     font-weight: 600;
@@ -64,71 +80,115 @@ nav a:hover::after {
 }
 
 .username-container {
-    display: inline-flex;
+    display: flex;
+    align-items: center;
 }
 
 .username {
-    padding-top: 12px;
     padding-right: 15px;
     font-weight: 600;
     color: #000;
 }
 
 .user-avatar {
-    width:30px;
+    width: 30px;
     height: auto;
     padding-right: 15px;
-    padding-top: 5px;
 }
 
 .logout {
     background-color: #e74c3c;
     border: none;
     color: white;
-    padding: 10px 15px;
+    padding: 8px 12px;
     font-size: 12px;
     font-weight: bold;
     border-radius: 4px;
     cursor: pointer;
-    display: inline-flex;
-    align-items: center;
     text-decoration: none;
     transition: background-color 0.3s ease;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 
 .logout:hover {
     background-color: #c0392b;
 }
 
-/* .logout::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 2px;
-    background: #090263;
-    transition: width 0.3s;
-    position: absolute;
-}
-
-.logout:hover::after {
-    width: 70%;
-} */
-
-
-
-
-/* Main */
+/* Main container styles */
 .main-container {
     display: flex;
     flex-direction: row;
+    padding-top: 4rem;
 }
 
+/* Side panel styles */
 .side-panel-container {
     border-right: 1px solid #ddd;
     background-color: #fff;
-    width: 20%;
-    padding: 40px;
+    width: 25%;
+    padding: 20px;
+}
+
+/* Main chat container styles */
+.main-chat-container {
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2%;
+    align-items: center;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-container, .side-panel-container {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 60px);
+        background-color: #fff;
+        overflow-y: auto;
+        z-index: 1000;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-container.active, .side-panel-container.active {
+        display: block;
+    }
+
+    nav {
+        flex-direction: column;
+    }
+
+    .main-container {
+        flex-direction: column;
+    }
+
+    .main-chat-container {
+        width: 100%;
+    }
+}
+
+/* Larger screen styles */
+@media screen and (min-width: 769px) {
+    .nav-container, .side-panel-container {
+        display: block !important;
+    }
+
+    .side-panel-container {
+        width: 25%;
+    }
+
+    .main-chat-container {
+        width: 75%;
+    }
 }
 
 .side-panel-top {
@@ -152,19 +212,17 @@ nav a:hover::after {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 20px;
+    padding: 10px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .user-item, #noResultsMessage {
-    /* padding: 10px 0; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* align-items: center; */
-    padding: 15px;
+    padding: 5px;
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
@@ -184,19 +242,16 @@ nav a:hover::after {
 
 .user-info {
     font-weight: 600;
-    font-size: 1.1rem;
-    padding-bottom: 5px;
+    font-size: 1rem;
+    /* padding-bottom: 5px; */
 }
 
 .user-status {
-    /* font-size: 12px;
-    font-style: italic;
-    margin-left: 10px; */
     display: flex;
     align-items: center;
     font-weight: 520;
     font-size: 14px;
-    padding: 5px 10px;
+    padding: 4px 7px;
     border-radius: 12px;
     background-color: #f0f0f0;
     color: #333;
@@ -233,21 +288,20 @@ nav a:hover::after {
 }
 
 .placeholder-image {
-    position: relative;
+    /* position: relative; */
     width: 15px;
     height: auto;
 }
 
 
 .about-text {
-    /* margin-bottom: 50px; */
-    background-color: #f8f9fa; /* Light background for better readability */
-    padding: 20px; /* Adds space around the text */
-    border-radius: 8px; /* Rounded corners for a softer look */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin: 20px 0; /* Spacing above and below the section */
-    font-family: 'Roboto', sans-serif; /* Clean, modern font */
-    line-height: 1.6; /* Improves readability */
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
 }
 
 .about-text p{
@@ -258,7 +312,6 @@ nav a:hover::after {
     word-spacing: 0.5px;
     line-height: 1.1;
     margin: 0;
-    /* color: #333;  */
     font-size: 16px;
 }
 
@@ -321,18 +374,8 @@ nav a:hover::after {
 }
 
 
-.main-chat-container {
-    background-color: #fff;
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 2% 2% 0 2%;
-    align-items: center;
-}
-
 .chat-container, .recent-chat-container {
-    width: 90%;
+    width: 100%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -346,7 +389,7 @@ nav a:hover::after {
     letter-spacing: -0.01em;
     line-height: 1;
     white-space: normal;
-    padding: 30px 0;
+    padding: 10px 0;
     color: #090263;
 }
 
@@ -366,7 +409,6 @@ nav a:hover::after {
     display: flex;
     flex-direction: column;
     background: #fff;
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
     border-radius: 10px;
 }
 
@@ -405,10 +447,9 @@ nav a:hover::after {
 }
   
   .comment-avatar {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    /* margin-right: 10px; */
   }
   
   .comment-header {
@@ -426,11 +467,8 @@ nav a:hover::after {
     color: #000;
     margin-right: 10px;
     cursor: pointer;
-    /* background-color: #090263; */
-    opacity: 0.95;
-    padding: 6px 60px 6px 10px;
+    padding-left: 5px;
     border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
 }
 
 .comment-time, .reply-time {
@@ -439,9 +477,10 @@ nav a:hover::after {
 }
 
 .comment-text, .reply-text {
-    margin: 10px 0;
+    /* margin: 10px 0; */
     color: #000;
-    margin-bottom: 25px;
+    font-size: 16px;
+    /* margin-bottom: 25px; */
   }
   
   .comment-reactions {
@@ -452,7 +491,7 @@ nav a:hover::after {
   
   .reaction {
     background-color: #e4e6eb;
-    padding: 5px 10px;
+    /* padding: 5px 10px; */
     border-radius: 15px;
     cursor: pointer;
   }
@@ -469,21 +508,19 @@ nav a:hover::after {
 
 .replies {
     margin-left: 10px;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 
 .reply {
-    margin-top: 10px;
+    /* margin-top: 10px; */
     display: flex;
     align-items: flex-start;
     padding: 10px;
-    /* border: 1px solid #888;
-    border-radius: 5px; */
 }
 
 .reply-avatar {
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     margin-right: 10px;
 }
 
@@ -503,7 +540,8 @@ nav a:hover::after {
 
 .comment-input {
     display: flex;
-    padding: 10px 40px;
+    justify-content: space-between;
+    padding: 10px 10px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
